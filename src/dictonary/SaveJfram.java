@@ -49,7 +49,6 @@ public class SaveJfram extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("វចនានុក្រមអង់គ្លេសខ្មែរ");
-        setPreferredSize(new java.awt.Dimension(1234, 702));
 
         jPanel1.setBackground(new java.awt.Color(236, 232, 200));
 
@@ -279,7 +278,7 @@ public class SaveJfram extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(15, 15, 15)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
