@@ -193,6 +193,7 @@
             </Property>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton2MouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
           </Events>
         </Component>
@@ -251,7 +252,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Khmer OS Muol Light" size="24" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="&#x179c;&#x1785;&#x1793;&#x17b6;&#x17a2;&#x17bb;&#x1780;&#x17d2;&#x179a;&#x1798;&#x17a2;&#x1784;&#x17cb;&#x1782;&#x17d2;&#x179b;&#x17c1;&#x179f;&#x1781;&#x17d2;&#x1798;&#x17c2;&#x179a;"/>
+            <Property name="text" type="java.lang.String" value="&#x179c;&#x1785;&#x1793;&#x17b6;&#x17a2;&#x17bb;&#x1780;&#x17d2;&#x179a;&#x1798; &#x17a2;&#x1784;&#x17cb;&#x1782;&#x17d2;&#x179b;&#x17c1;&#x179f;~&#x1781;&#x17d2;&#x1798;&#x17c2;&#x179a;"/>
           </Properties>
         </Component>
       </SubComponents>
