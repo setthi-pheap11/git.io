@@ -15,6 +15,10 @@ public class InputWord extends javax.swing.JFrame {
      */
     public InputWord() {
         initComponents();
+        connectToDatabase();
+    }
+    private void connectToDatabase(){
+        
     }
 
     /**
