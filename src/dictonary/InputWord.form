@@ -6,7 +6,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -111,6 +111,9 @@
             </Property>
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -157,7 +160,7 @@
                   <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" pref="118" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTextField1" min="-2" pref="392" max="-2" attributes="0"/>
+                  <Component id="jtfWordInput" min="-2" pref="392" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -168,7 +171,7 @@
                   <EmptySpace pref="21" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel3" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
-                      <Component id="jTextField1" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
+                      <Component id="jtfWordInput" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -185,7 +188,7 @@
             <Property name="text" type="java.lang.String" value="&#x1796;&#x17b6;&#x1780;&#x17d2;&#x1799;"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="jtfWordInput">
         </Component>
       </SubComponents>
     </Container>
@@ -198,7 +201,7 @@
                   <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" pref="68" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                  <Component id="jTextField2" min="-2" pref="396" max="-2" attributes="0"/>
+                  <Component id="jtfTranslateInput" min="-2" pref="396" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -208,7 +211,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jTextField2" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="jtfTranslateInput" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="47" max="32767" attributes="0"/>
@@ -225,7 +228,7 @@
             <Property name="text" type="java.lang.String" value="&#x1794;&#x1780;&#x1794;&#x17d2;&#x179a;&#x17c2;"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField2">
+        <Component class="javax.swing.JTextField" name="jtfTranslateInput">
         </Component>
       </SubComponents>
     </Container>
@@ -272,6 +275,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="&#x179f;&#x1798;&#x17d2;&#x17a2;&#x17b6;&#x178f;"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
