@@ -4,23 +4,31 @@
  */
 package dictonary;
 
+
 /**
  *
  * @author User
  */
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 public class InputWord extends javax.swing.JFrame {
+    Connection connection;
+      String url="jdbc:mysql://localhost:3306/dictionary";
+      String user="root";
+      String pass="02062004@Se01";
+    
 
     /**
      * Creates new form InputWord
      */
     public InputWord() {
         initComponents();
-        connectToDatabase();
+       
     }
-    private void connectToDatabase(){
-        
-    }
-
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,7 +51,6 @@ public class InputWord extends javax.swing.JFrame {
         jtfTranslateInput = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -155,12 +162,9 @@ public class InputWord extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Khmer OS Siemreap", 1, 15)); // NOI18N
         jButton2.setText("បញ្ចូល");
-
-        jButton3.setFont(new java.awt.Font("Khmer OS Siemreap", 1, 15)); // NOI18N
-        jButton3.setText("សម្អាត");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -168,21 +172,17 @@ public class InputWord extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(239, 239, 239)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(317, 317, 317))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -229,12 +229,29 @@ public class InputWord extends javax.swing.JFrame {
       InputWord.this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-               jtfWordInput.setText("");
-               jtfTranslateInput.setText("");
-               jtfWordInput.requestFocus();
-               
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            // TODO add your handling code here:
+            connection=DriverManager.getConnection(url,user,pass);
+            String word = jtfWordInput.getText();
+            String translate=jtfTranslateInput.getText();
+            
+            String sql = "INSERT INTO tbdictionary (Word,Translate) VALUES (?,?)";
+            
+           PreparedStatement preparestatement=connection.prepareStatement(sql);
+           preparestatement.setString(1, word);
+           preparestatement.setString(2,translate);
+           
+           int result =preparestatement.executeUpdate();
+           
+           JOptionPane.showMessageDialog(rootPane, "Saved Successfully");
+           jtfWordInput.setText("");
+           jtfTranslateInput.setText("");
+           jtfWordInput.requestFocus();
+        } catch (SQLException ex) {
+            Logger.getLogger(InputWord.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -274,7 +291,6 @@ public class InputWord extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
