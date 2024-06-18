@@ -16,10 +16,11 @@ import javax.swing.JOptionPane;
 
 public class InputWord extends javax.swing.JFrame {
     Connection connection;
-      String url="jdbc:mysql://localhost:3306/dictionary";
+     String url="jdbc:mysql://localhost:3306/dictionary";
       String user="root";
       String pass="02062004@Se01";
     
+
 
     /**
      * Creates new form InputWord
@@ -224,13 +225,17 @@ public class InputWord extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+     
+   
       J1 j1=new J1();
       j1.setVisible(true);
       InputWord.this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {
+       
+       
+     try {
             // TODO add your handling code here:
             connection=DriverManager.getConnection(url,user,pass);
             String word = jtfWordInput.getText();
