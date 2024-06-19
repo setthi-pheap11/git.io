@@ -25,15 +25,16 @@ public class SaveJfram extends javax.swing.JFrame {
       String url="jdbc:mysql://localhost:3306/dictionary";
       String user="root";
       String pass="02062004@Se01";
-      DefaultListModel<String> listModel;
-      DefaultListModel<String> outputListModel;
+      DefaultListModel<String> inputlistModel=new DefaultListModel<>();
+      DefaultListModel<String> outputListModel=new DefaultListModel<>();
       
       int selectedIndex;
        String selectedItem;
       
        
         PreparedStatement preparedStatement;
-        ResultSet resultSet;
+        ResultSet resultset;
+        Statement statement;
       
     /**
      * Creates new form SaveJfram
@@ -41,25 +42,25 @@ public class SaveJfram extends javax.swing.JFrame {
     public SaveJfram() {
         initComponents();
         try {
-            listModel=new DefaultListModel<>();
+            
              Class.forName("com.mysql.cj.jdbc.Driver");
              System.out.print("Connected");
              connection=DriverManager.getConnection(url,user,pass);
              //JOptionPane.showMessageDialog(rootPane, "Connected");
                 String query ="Select Word from tbdictionary";
-             Statement statement =connection.createStatement();
-             ResultSet resultset=statement.executeQuery(query);
+             statement =connection.createStatement();
+              resultset=statement.executeQuery(query);
             
              while(resultset.next()){
                  
                  String ss= resultset.getString(1);
           
-                 listModel.addElement(ss);
+                 inputlistModel.addElement(ss);
                  
               
              }
              
-             jList1.setModel(listModel);
+             jList1.setModel(inputlistModel);
              
              
              
@@ -125,7 +126,11 @@ public class SaveJfram extends javax.swing.JFrame {
 
         jTextField1.setFont(new java.awt.Font("Khmer OS Siemreap", 0, 12)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("វាយបញ្ចូលពាក្យ");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(115, 228, 96));
         jButton3.setText("ស្វែងរក");
@@ -172,6 +177,11 @@ public class SaveJfram extends javax.swing.JFrame {
         jButton7.setBackground(new java.awt.Color(105, 165, 255));
         jButton7.setFont(new java.awt.Font("Khmer OS Muol Light", 0, 12)); // NOI18N
         jButton7.setText("បោះពុម្ភ");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -304,9 +314,10 @@ public class SaveJfram extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(rootPane,"Deleted");
             }
-            listModel.removeElementAt(selectedIndex);
+            inputlistModel.removeElementAt(selectedIndex);
             //outputListModel.removeElementAt(selectedIndex);
             jList1.remove(selectedIndex);
+            
            
             
             
@@ -319,6 +330,28 @@ public class SaveJfram extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        //sort by name asc
+        
+        String query = "Select Word from tbdictionary order by Word asc";
+        try {
+            inputlistModel.clear();
+            statement=connection.createStatement();
+            resultset=statement.executeQuery(query);
+             while(resultset.next()){
+                 
+                 String ss= resultset.getString(1);
+          
+                 inputlistModel.addElement(ss);
+                 
+              
+             }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SaveJfram.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+      
+        
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
@@ -337,10 +370,10 @@ public class SaveJfram extends javax.swing.JFrame {
                         try {
                               preparedStatement = connection.prepareStatement(query);
                              preparedStatement.setString(1,selectedItem);
-                              resultSet=preparedStatement.executeQuery();
+                              resultset=preparedStatement.executeQuery();
                              
-                             while(resultSet.next()){
-                             String translate=resultSet.getString(1);
+                             while(resultset.next()){
+                             String translate=resultset.getString(1);
                              outputListModel.addElement(translate);
                              }
                              jList2.setModel(outputListModel);
@@ -353,6 +386,38 @@ public class SaveJfram extends javax.swing.JFrame {
                     }
           }  // TODO add your handling code here:
     }//GEN-LAST:event_jList1ValueChanged
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(rootPane, "Printting...");
+        
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here: 
+        
+        String text =jTextField1.getText();
+         String query = "Select Distint Word from tbdictionary where Word like​?";
+        try {
+            //inputlistModel.clear();
+            preparedStatement=connection.prepareStatement(query);
+            preparedStatement.setString(1,"%"+text);
+            resultset=preparedStatement.executeQuery();
+            
+             while(resultset.next()){
+                 
+                 String ss= resultset.getString(1);
+          
+                 inputlistModel.addElement(ss);
+                 
+              
+             }
+             jList1.setModel(inputlistModel);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SaveJfram.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
