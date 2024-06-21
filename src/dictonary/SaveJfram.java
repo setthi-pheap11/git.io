@@ -83,7 +83,7 @@ public class SaveJfram extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -132,8 +132,13 @@ public class SaveJfram extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(115, 228, 96));
-        jButton3.setText("ស្វែងរក");
+        btnSearch.setBackground(new java.awt.Color(115, 228, 96));
+        btnSearch.setText("ស្វែងរក");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         btnDelete.setBackground(new java.awt.Color(255, 69, 69));
         btnDelete.setFont(new java.awt.Font("Khmer OS Muol Light", 0, 12)); // NOI18N
@@ -203,7 +208,7 @@ public class SaveJfram extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -231,7 +236,7 @@ public class SaveJfram extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDelete)
                             .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton7)))
@@ -396,17 +401,28 @@ public class SaveJfram extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here: 
         
-        String text =jTextField1.getText();
-         String query = "Select Distint Word from tbdictionary where Word like​?";
+       
+        
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+       String text =jTextField1.getText();
+         String query = "Select Distinct Word from tbdictionary where Word =?";
         try {
             //inputlistModel.clear();
+//            statement =connection.createStatement();
+//            resultset=statement.executeQuery(query);
+            
             preparedStatement=connection.prepareStatement(query);
-            preparedStatement.setString(1,"%"+text);
+            preparedStatement.setString(1,text);
             resultset=preparedStatement.executeQuery();
             
              while(resultset.next()){
+                 inputlistModel.clear();
                  
                  String ss= resultset.getString(1);
+                 
           
                  inputlistModel.addElement(ss);
                  
@@ -417,7 +433,8 @@ public class SaveJfram extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(SaveJfram.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jTextField1ActionPerformed
+       
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -457,7 +474,7 @@ public class SaveJfram extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
