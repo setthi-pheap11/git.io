@@ -4,8 +4,6 @@
  */
 package dictonary;
 
-
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,32 +17,66 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-
-
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
  * @author setthi
  */
 public class J1 extends javax.swing.JFrame {
-    
-     Connection connection;
-      String url="jdbc:mysql://localhost:3306/dictionary";
-      String user="root";
-      String pass="02062004@Se01";
-     
-      
-      DefaultListModel<String> listModel;
-       DefaultListModel<String> outputListModel;
- 
+
+    Connection connection;
+    String url = "jdbc:mysql://localhost:3306/dictionary";
+    String user = "root";
+    String pass = "02062004@Se01";
+
+    DefaultListModel<String> inputListModel;
+    DefaultListModel<String> outputListModel;
+    Statement statement;
+    ResultSet resultSet;
+    int selectedIndex;
+    String selectedItem;
+    String translate = "";
+    PreparedStatement preparedStatement;
 
     /**
      * Creates new form J1
      */
     public J1() {
         initComponents();
-        listModel=new DefaultListModel<>();
-       outputListModel=new DefaultListModel<>();
+        listShow();
+
+    }
+
+    // show all word when the application start up 
+    private void listShow() {
+        inputListModel = new DefaultListModel<>();
+
+        try {
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.print("Connected");
+            connection = DriverManager.getConnection(url, user, pass);
+            //JOptionPane.showMessageDialog(rootPane, "Connected");
+            String query = "Select Word from tbdictionary order by Word";
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+
+                String ss = resultSet.getString(1);
+
+                inputListModel.addElement(ss);
+
+            }
+
+            wordList.setModel(inputListModel);
+
+        } catch (Exception ex) {
+            Logger.getLogger(J1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -56,21 +88,30 @@ public class J1 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        MenuOption = new javax.swing.JPopupMenu();
+        save = new javax.swing.JMenuItem();
+        MainPane = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         btnHistory = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        searchTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        wordList = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+
+        MenuOption.setComponentPopupMenu(MenuOption);
+
+        save.setText("save");
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveActionPerformed(evt);
+            }
+        });
+        MenuOption.add(save);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("វចនានុក្រមខ្មែរអង់គ្លេស");
@@ -81,38 +122,14 @@ public class J1 extends javax.swing.JFrame {
         setName(""); // NOI18N
         setResizable(false);
 
-        jTextField1.setFont(new java.awt.Font("Khmer OS Battambang", 0, 12)); // NOI18N
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setToolTipText("");
-        jTextField1.setAutoscrolls(false);
-        jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextField1.setName("វាយបញ្ចូលពាក្យស្វែងរក"); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
-        jButton1.setBackground(new java.awt.Color(51, 255, 51));
-        jButton1.setFont(new java.awt.Font("Khmer OS Battambang", 0, 12)); // NOI18N
-        jButton1.setText("ស្វែងរក");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Khmer OS Battambang", 0, 12)); // NOI18N
-        jLabel1.setText("ពាក្យទាំងអស់");
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
-        jPanel1.setAutoscrolls(true);
+        jLabel3.setFont(new java.awt.Font("Khmer OS Muol Light", 0, 24)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("វចនាអុក្រមអង់គ្លេស-ខ្មែរ");
 
         btnHistory.setBackground(new java.awt.Color(205, 242, 242));
-        btnHistory.setFont(new java.awt.Font("Khmer OS Battambang", 0, 12)); // NOI18N
+        btnHistory.setFont(new java.awt.Font("!Khmer OS Siemreap", 0, 12)); // NOI18N
         btnHistory.setText("ប្រវត្តិ");
-        btnHistory.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnHistory.setBorder(null);
         btnHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHistoryActionPerformed(evt);
@@ -120,9 +137,9 @@ public class J1 extends javax.swing.JFrame {
         });
 
         btnSave.setBackground(new java.awt.Color(204, 255, 255));
-        btnSave.setFont(new java.awt.Font("Khmer OS Battambang", 0, 12)); // NOI18N
+        btnSave.setFont(new java.awt.Font("!Khmer OS Siemreap", 0, 12)); // NOI18N
         btnSave.setText("រក្សាទុក");
-        btnSave.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnSave.setBorder(null);
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -138,132 +155,109 @@ public class J1 extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(156, Short.MAX_VALUE)
-                .addComponent(btnHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4)
-                .addGap(45, 45, 45))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4)
-                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18))
-        );
+        jLabel1.setFont(new java.awt.Font("!Khmer OS Siemreap", 0, 12)); // NOI18N
+        jLabel1.setText("ពាក្យទាំងអស់");
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 204));
-        jPanel2.setAutoscrolls(true);
-
-        jLabel3.setFont(new java.awt.Font("Khmer OS Muol Light", 0, 24)); // NOI18N
-        jLabel3.setText("វចនាអុក្រមអង់គ្លេសខ្មែរ");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(108, 108, 108)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel3)
-                .addContainerGap(17, Short.MAX_VALUE))
-        );
-
-        jButton5.setBackground(new java.awt.Color(204, 255, 255));
-        jButton5.setFont(new java.awt.Font("Khmer OS Battambang", 0, 12)); // NOI18N
-        jButton5.setText("រក្សាទុក");
-        jButton5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+        searchTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searchTextField.setToolTipText("");
+        searchTextField.setAutoscrolls(false);
+        searchTextField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        searchTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        searchTextField.setName("វាយបញ្ចូលពាក្យស្វែងរក"); // NOI18N
+        searchTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                searchTextFieldFocusGained(evt);
             }
         });
+        searchTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("!Khmer OS Siemreap", 1, 14)); // NOI18N
+        jLabel2.setText(" ស្វែងរក");
+
+        wordList.setComponentPopupMenu(MenuOption);
+        wordList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                wordListValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(wordList);
 
         jScrollPane2.setViewportView(jList2);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
+        javax.swing.GroupLayout MainPaneLayout = new javax.swing.GroupLayout(MainPane);
+        MainPane.setLayout(MainPaneLayout);
+        MainPaneLayout.setHorizontalGroup(
+            MainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MainPaneLayout.createSequentialGroup()
+                .addGroup(MainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MainPaneLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(MainPaneLayout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(MainPaneLayout.createSequentialGroup()
+                        .addGap(161, 161, 161)
+                        .addGroup(MainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(MainPaneLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(btnHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(52, 52, 52)
+                                .addComponent(jButton4))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
+        MainPaneLayout.setVerticalGroup(
+            MainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MainPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(MainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(MainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(MainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(92, 92, 92))
         );
 
-        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jList1ValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jList1);
+        searchTextField.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(40, 40, 40)
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(42, 42, 42)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(MainPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18))
+                .addComponent(MainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
-
-        jTextField1.getAccessibleContext().setAccessibleName("");
 
         getAccessibleContext().setAccessibleName("");
 
@@ -271,53 +265,26 @@ public class J1 extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void searchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_searchTextFieldActionPerformed
 
     private void btnHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoryActionPerformed
-     jLabel1.setText("ប្រវត្តិ");
-     
-     try {
-         try {
-             Class.forName("com.mysql.cj.jdbc.Driver");
-            // JOptionPane.showMessageDialog(rootPane, "Connect successfully");
-           System.out.print("success");
-         } catch (ClassNotFoundException ex) {
-             Logger.getLogger(J1.class.getName()).log(Level.SEVERE, null, ex);
-         }
-            // TODO add your handling code here:
-            connection=DriverManager.getConnection(url,user,pass);
-            JOptionPane.showConfirmDialog(rootPane,"Connected");
-           
-//            String query = "SELECT Word FROM tbDictionary";
-//            Statement statement =connection.createStatement();
-//            ResultSet resultset=statement.executeQuery(query);
-//            
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(InputWord.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        historyForm history = new historyForm();
+        history.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnHistoryActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-       SaveJfram save=new SaveJfram();
-       save.setVisible(true);
-       this.dispose();
-                
+        SaveJfram save = new SaveJfram();
+        save.setVisible(true);
+        this.dispose();
+
     }//GEN-LAST:event_btnSaveActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-         boolean istrue = true;
+        boolean istrue = true;
         String password = "sela";
 
         do {
@@ -339,22 +306,121 @@ public class J1 extends javax.swing.JFrame {
                 }
             }
         } while (istrue);
-      
-     
-   
-     
-     
-    
 
-         //this.dispose();
-         
+        //this.dispose();
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-          // TODO add your handling code here:
-         
-                    
-    }//GEN-LAST:event_jList1ValueChanged
+    private void wordListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_wordListValueChanged
+        // TODO add your handling code here:
+        outputListModel = new DefaultListModel<>();
+        if (!evt.getValueIsAdjusting()) {
+            outputListModel.clear();
+            // Get the selected index
+            selectedIndex = wordList.getSelectedIndex();
+
+            // Get the selected item
+            if (selectedIndex != -1) {
+                selectedItem = wordList.getModel().getElementAt(selectedIndex);
+                // Update the JLabel with the selected item
+                String query = "Select Translate from tbdictionary where Word= ?";
+
+                try {
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, selectedItem);
+                    resultSet = preparedStatement.executeQuery();
+
+                    while (resultSet.next()) {
+                        translate = resultSet.getString(1);
+                        outputListModel.addElement(translate);
+                    }
+                    jList2.setModel(outputListModel);
+
+                    System.out.println(selectedItem + "and" + translate);
+
+                    String insertTotbHistory = "INSERT INTO tbhistory(Word,Translate) values(?,?)";
+                    preparedStatement = connection.prepareStatement(insertTotbHistory);
+                    preparedStatement.setString(1, selectedItem);
+                    preparedStatement.setString(2, translate);
+                    int inserted = preparedStatement.executeUpdate();
+                    preparedStatement.close();
+                    if (inserted > 0) {
+                        System.out.println("success");
+                    } else {
+                        System.out.println("fail");
+                    }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(J1.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }  // TOD
+
+    }//GEN-LAST:event_wordListValueChanged
+
+    private void searchTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchTextFieldFocusGained
+        // TODO add your handling code here:
+        searchTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filterList();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filterList();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filterList();
+            }
+
+            private void filterList() {
+                String filter = searchTextField.getText().toLowerCase();
+
+                DefaultListModel<String> filterListModel = new DefaultListModel<>();
+                for (int i = 0; i < inputListModel.getSize(); i++) {
+                    String word = inputListModel.getElementAt(i);
+                    if (word.toLowerCase().contains(filter)) {
+                        filterListModel.addElement(word);
+                    }
+                }
+                wordList.setModel(filterListModel);
+            }
+
+        });
+    }//GEN-LAST:event_searchTextFieldFocusGained
+
+    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+
+        selectedIndex = wordList.getSelectedIndex();
+        // Get the selected item
+        if (selectedIndex != -1) {
+            selectedItem = wordList.getModel().getElementAt(selectedIndex);
+            System.out.println(selectedItem);
+            System.out.println(translate);
+
+            String query = "INSERT INTO tbsave(Word,Translate)values(?,?)";
+            try {
+                connection = DriverManager.getConnection(url, user, pass);
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, selectedItem);
+                preparedStatement.setString(2, translate);
+                int result = preparedStatement.executeUpdate();
+                if (result > 0) {
+                    System.out.println("done!");
+                    preparedStatement.close();
+                    connection.close();
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(J1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }//GEN-LAST:event_saveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -392,20 +458,19 @@ public class J1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel MainPane;
+    private javax.swing.JPopupMenu MenuOption;
     private javax.swing.JButton btnHistory;
     private javax.swing.JButton btnSave;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JMenuItem save;
+    private javax.swing.JTextField searchTextField;
+    private javax.swing.JList<String> wordList;
     // End of variables declaration//GEN-END:variables
 }

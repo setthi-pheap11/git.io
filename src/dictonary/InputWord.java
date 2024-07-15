@@ -4,7 +4,6 @@
  */
 package dictonary;
 
-
 /**
  *
  * @author User
@@ -15,21 +14,20 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class InputWord extends javax.swing.JFrame {
-    Connection connection;
-     String url="jdbc:mysql://localhost:3306/dictionary";
-      String user="root";
-      String pass="02062004@Se01";
-    
 
+    Connection connection;
+    String url = "jdbc:mysql://localhost:3306/dictionary";
+    String user = "root";
+    String pass = "02062004@Se01";
 
     /**
      * Creates new form InputWord
      */
     public InputWord() {
         initComponents();
-       
+
     }
-   
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,7 +39,7 @@ public class InputWord extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -59,12 +57,12 @@ public class InputWord extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("វចនានុក្រមអង់គ្លេស-ខ្មែរ");
 
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Downloads\\return (1).png")); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnBack.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Downloads\\return (1).png")); // NOI18N
+        btnBack.setBorder(null);
+        btnBack.setBorderPainted(false);
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnBackActionPerformed(evt);
             }
         });
 
@@ -74,7 +72,7 @@ public class InputWord extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(35, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(118, 118, 118))
@@ -87,7 +85,7 @@ public class InputWord extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
@@ -224,35 +222,33 @@ public class InputWord extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     
-   
-      J1 j1=new J1();
-      j1.setVisible(true);
-      InputWord.this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+
+        J1 j1 = new J1();
+        j1.setVisible(true);
+        InputWord.this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       
-       
-     try {
+
+        try {
             // TODO add your handling code here:
-            connection=DriverManager.getConnection(url,user,pass);
+            connection = DriverManager.getConnection(url, user, pass);
             String word = jtfWordInput.getText();
-            String translate=jtfTranslateInput.getText();
-            
+            String translate = jtfTranslateInput.getText();
+
             String sql = "INSERT INTO tbdictionary (Word,Translate) VALUES (?,?)";
-            
-           PreparedStatement preparestatement=connection.prepareStatement(sql);
-           preparestatement.setString(1, word);
-           preparestatement.setString(2,translate);
-           
-           int result =preparestatement.executeUpdate();
-           
-           JOptionPane.showMessageDialog(rootPane, "Saved Successfully");
-           jtfWordInput.setText("");
-           jtfTranslateInput.setText("");
-           jtfWordInput.requestFocus();
+
+            PreparedStatement preparestatement = connection.prepareStatement(sql);
+            preparestatement.setString(1, word);
+            preparestatement.setString(2, translate);
+
+            int result = preparestatement.executeUpdate();
+
+            JOptionPane.showMessageDialog(rootPane, "Saved Successfully");
+            jtfWordInput.setText("");
+            jtfTranslateInput.setText("");
+            jtfWordInput.requestFocus();
         } catch (SQLException ex) {
             Logger.getLogger(InputWord.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -294,7 +290,7 @@ public class InputWord extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

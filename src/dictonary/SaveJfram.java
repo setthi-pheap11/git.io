@@ -4,70 +4,76 @@
  */
 package dictonary;
 
+import java.awt.List;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
  * @author Ogla
  */
 public class SaveJfram extends javax.swing.JFrame {
-    
+
     Connection connection;
-      String url="jdbc:mysql://localhost:3306/dictionary";
-      String user="root";
-      String pass="02062004@Se01";
-      DefaultListModel<String> inputlistModel=new DefaultListModel<>();
-      DefaultListModel<String> outputListModel=new DefaultListModel<>();
-      
-      int selectedIndex;
-       String selectedItem;
-      
-       
-        PreparedStatement preparedStatement;
-        ResultSet resultset;
-        Statement statement;
-      
+    String url = "jdbc:mysql://localhost:3306/dictionary";
+    String user = "root";
+    String pass = "02062004@Se01";
+    DefaultListModel<String> inputlistModel = new DefaultListModel<>();
+    DefaultListModel<String> outputListModel = new DefaultListModel<>();
+
+    int selectedIndex;
+    String selectedItem;
+
+    PreparedStatement preparedStatement;
+    ResultSet resultset;
+    Statement statement;
+
     /**
      * Creates new form SaveJfram
      */
     public SaveJfram() {
         initComponents();
+        listShow();
+
+    }
+
+    // show all word when show list 
+    private void listShow() {
         try {
-            
-             Class.forName("com.mysql.cj.jdbc.Driver");
-             System.out.print("Connected");
-             connection=DriverManager.getConnection(url,user,pass);
-             //JOptionPane.showMessageDialog(rootPane, "Connected");
-                String query ="Select Word from tbdictionary";
-             statement =connection.createStatement();
-              resultset=statement.executeQuery(query);
-            
-             while(resultset.next()){
-                 
-                 String ss= resultset.getString(1);
-          
-                 inputlistModel.addElement(ss);
-                 
-              
-             }
-             
-             jList1.setModel(inputlistModel);
-             
-             
-             
- 
-         } catch (Exception ex) {
-             Logger.getLogger(J1.class.getName()).log(Level.SEVERE, null, ex);
-         }
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.print("Connected");
+            connection = DriverManager.getConnection(url, user, pass);
+            //JOptionPane.showMessageDialog(rootPane, "Connected");
+            String query = "Select Word from tbsave";
+            statement = connection.createStatement();
+            resultset = statement.executeQuery(query);
+
+            while (resultset.next()) {
+
+                String ss = resultset.getString(1);
+
+                inputlistModel.addElement(ss);
+
+            }
+
+            jList1.setModel(inputlistModel);
+
+        } catch (Exception ex) {
+            Logger.getLogger(J1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -81,18 +87,18 @@ public class SaveJfram extends javax.swing.JFrame {
 
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        btnBack = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        btnSearch = new javax.swing.JButton();
+        searchTextField = new javax.swing.JTextField();
         btnDelete = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jButton7 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
+        jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -107,36 +113,49 @@ public class SaveJfram extends javax.swing.JFrame {
         jLabel1.setText("វចនានុក្រមអង់គ្លេសខ្មែរ");
         jLabel1.setOpaque(true);
 
+        btnBack.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Downloads\\return (1).png")); // NOI18N
+        btnBack.setBorder(null);
+        btnBack.setBorderPainted(false);
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(151, 151, 151)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(61, 61, 61))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        jTextField1.setFont(new java.awt.Font("Khmer OS Siemreap", 0, 12)); // NOI18N
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+        searchTextField.setFont(new java.awt.Font("Khmer OS Siemreap", 0, 12)); // NOI18N
+        searchTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchTextFieldMouseClicked(evt);
             }
         });
-
-        btnSearch.setBackground(new java.awt.Color(115, 228, 96));
-        btnSearch.setText("ស្វែងរក");
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+        searchTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
+                searchTextFieldActionPerformed(evt);
             }
         });
 
@@ -179,15 +198,6 @@ public class SaveJfram extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jButton7.setBackground(new java.awt.Color(105, 165, 255));
-        jButton7.setFont(new java.awt.Font("Khmer OS Muol Light", 0, 12)); // NOI18N
-        jButton7.setText("បោះពុម្ភ");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jList1ValueChanged(evt);
@@ -197,62 +207,62 @@ public class SaveJfram extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(jList2);
 
+        jLabel3.setFont(new java.awt.Font("!Khmer OS Siemreap", 1, 14)); // NOI18N
+        jLabel3.setText("ស្វែងរក");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(18, 18, Short.MAX_VALUE)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(87, 87, 87)
-                                .addComponent(btnDelete)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton5)
-                                .addGap(12, 12, 12)
-                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(btnDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5)
+                        .addGap(146, 146, 146)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDelete)
                             .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton7)))
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                            .addComponent(btnDelete)
+                            .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(308, 308, 308)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(69, 69, 69)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1))
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addGap(96, 96, 96)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(308, 308, 308)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -265,7 +275,7 @@ public class SaveJfram extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(331, 331, 331)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(221, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,13 +287,15 @@ public class SaveJfram extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 13, Short.MAX_VALUE))
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,8 +305,8 @@ public class SaveJfram extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -304,137 +316,135 @@ public class SaveJfram extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         selectedItem = jList1.getModel().getElementAt(selectedIndex);
-       
-                        // Update the JLabel with the selected item
-                   String query="Delete from tbdictionary where Word =? ";
-                   
+
+        // Update the JLabel with the selected item
+        String query = "Delete from tbdictionary where Word =? ";
+
         try {
-            preparedStatement =connection.prepareStatement(query);
-            preparedStatement.setString(1,selectedItem);
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, selectedItem);
             int rowsAffected = preparedStatement.executeUpdate();
-            
-           // jList2.remove(selectedIndex);
+
+            // jList2.remove(selectedIndex);
             if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(rootPane,"Deleted");
+                JOptionPane.showMessageDialog(rootPane, "Deleted");
             } else {
-                JOptionPane.showMessageDialog(rootPane,"Deleted");
+                JOptionPane.showMessageDialog(rootPane, "Deleted");
             }
             inputlistModel.removeElementAt(selectedIndex);
             //outputListModel.removeElementAt(selectedIndex);
             jList1.remove(selectedIndex);
-            
-           
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SaveJfram.class.getName()).log(Level.SEVERE, null, ex);
         }
-                   
-  
+
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         //sort by name asc
-        
-        String query = "Select Word from tbdictionary order by Word asc";
+
+        String query = "Select Word from tbsave order by Word asc";
         try {
             inputlistModel.clear();
-            statement=connection.createStatement();
-            resultset=statement.executeQuery(query);
-             while(resultset.next()){
-                 
-                 String ss= resultset.getString(1);
-          
-                 inputlistModel.addElement(ss);
-                 
-              
-             }
-            
+            statement = connection.createStatement();
+            resultset = statement.executeQuery(query);
+            while (resultset.next()) {
+
+                String ss = resultset.getString(1);
+
+                inputlistModel.addElement(ss);
+
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(SaveJfram.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-      
-        
+
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-         outputListModel=new DefaultListModel<>();
+        outputListModel = new DefaultListModel<>();
         if (!evt.getValueIsAdjusting()) {
-                    outputListModel.clear();
-                    // Get the selected index
-                     selectedIndex = jList1.getSelectedIndex();
+            outputListModel.clear();
+            // Get the selected index
+            selectedIndex = jList1.getSelectedIndex();
 
-                    // Get the selected item
-                    if (selectedIndex != -1) {
-                         selectedItem = jList1.getModel().getElementAt(selectedIndex);
-                        // Update the JLabel with the selected item
-                   String query="Select Translate from tbdictionary where Word= ?";
-                 
-                        try {
-                              preparedStatement = connection.prepareStatement(query);
-                             preparedStatement.setString(1,selectedItem);
-                              resultset=preparedStatement.executeQuery();
-                             
-                             while(resultset.next()){
-                             String translate=resultset.getString(1);
-                             outputListModel.addElement(translate);
-                             }
-                             jList2.setModel(outputListModel);
-                            
-                        } catch (SQLException ex) {
-                            Logger.getLogger(J1.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                  
-       
+            // Get the selected item
+            if (selectedIndex != -1) {
+                selectedItem = jList1.getModel().getElementAt(selectedIndex);
+                // Update the JLabel with the selected item
+                String query = "Select Translate from tbsave where Word= ?";
+
+                try {
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, selectedItem);
+                    resultset = preparedStatement.executeQuery();
+
+                    while (resultset.next()) {
+                        String translate = resultset.getString(1);
+                        outputListModel.addElement(translate);
                     }
-          }  // TODO add your handling code here:
+                    jList2.setModel(outputListModel);
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(J1.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }  // TODO add your handling code here:
     }//GEN-LAST:event_jList1ValueChanged
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-        JOptionPane.showMessageDialog(rootPane, "Printting...");
-        
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void searchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTextFieldActionPerformed
         // TODO add your handling code here: 
-        
-       
-        
-    }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+
+    }//GEN-LAST:event_searchTextFieldActionPerformed
+
+    private void searchTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTextFieldMouseClicked
         // TODO add your handling code here:
-       String text =jTextField1.getText();
-         String query = "Select Distinct Word from tbdictionary where Word =?";
-        try {
-            //inputlistModel.clear();
-//            statement =connection.createStatement();
-//            resultset=statement.executeQuery(query);
-            
-            preparedStatement=connection.prepareStatement(query);
-            preparedStatement.setString(1,text);
-            resultset=preparedStatement.executeQuery();
-            
-             while(resultset.next()){
-                 inputlistModel.clear();
-                 
-                 String ss= resultset.getString(1);
-                 
-          
-                 inputlistModel.addElement(ss);
-                 
-              
-             }
-             jList1.setModel(inputlistModel);
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(SaveJfram.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
-    }//GEN-LAST:event_btnSearchActionPerformed
+        searchTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filterlist();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filterlist();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filterlist();
+            }
+
+            private void filterlist() {
+                String filter = searchTextField.getText().toLowerCase();
+
+                DefaultListModel<String> filterlistModel = new DefaultListModel<>();
+                for (int i = 0; i < inputlistModel.getSize(); i++) {
+                    String word = inputlistModel.getElementAt(i);
+                    if (word.toLowerCase().contains(filter)) {
+                        filterlistModel.addElement(word);
+                    }
+                }
+                jList1.setModel(filterlistModel);
+            }
+
+        });
+
+    }//GEN-LAST:event_searchTextFieldMouseClicked
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+
+        J1 j1 = new J1();
+        j1.setVisible(true);
+        SaveJfram.this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -473,12 +483,12 @@ public class SaveJfram extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnSearch;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
@@ -488,6 +498,6 @@ public class SaveJfram extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField searchTextField;
     // End of variables declaration//GEN-END:variables
 }
